@@ -1,0 +1,26 @@
+services:
+  backend:
+    image: skeleton:0.1.0
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - database
+      - session
+
+  database:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432" # exposed for dbeaver in dev environment
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  session:
+    image: redis:6.0-alpine
+    expose:
+      - "6379"
