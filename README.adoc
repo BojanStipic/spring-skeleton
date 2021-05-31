@@ -1,0 +1,104 @@
+= spring-skeleton
+:toc:
+:toc-placement!:
+:sectanchors:
+:sectnums:
+ifndef::env-github[:icons: font]
+ifdef::env-github[]
+:status:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+Spring Boot skeleton to kick-start your new application.
+
+toc::[]
+
+== What is included?
+
+* Spring Boot
+* Postgres database with Spring Data JPA
+* Preconfigured Spring Security, with session information stored in Redis
+* Lombok
+* OpenAPI 3.0 documentation and Swagger UI
+* Spring Boot Actuator
+* Spring Boot Devtools
+
+== Usage
+
+=== Set project group and artifact name
+
+Use `init.sh` script to initialize a new project with the given group and artifact name:
+
+```
+./init.sh group artifact
+```
+
+=== Build and run
+
+Build an image using Buildpacks and run as a Docker container:
+
+```bash
+./gradlew bootBuildImage && docker-compose up
+```
+
+== OpenAPI 3.0 documentation
+
+OpenAPI documentation is available on the following link:
+http://localhost:8080/api/v3/api-docs
+
+TIP: `jq` utility can be installed in order to interact with the JSON output directly from the CLI.
+For example, the following command will list all available endpoints:
+`curl http://localhost:8080/api/v3/api-docs | jq '.paths|keys'`
+
+== Swagger UI
+
+Swagger UI is available to visualize and interact with the API's resources.
+It is available on the following link:
+http://localhost:8080/api/swagger-ui.html
+
+== Postgres CLI
+
+Use the following command to connect to the Postgres instance:
+
+```bash
+docker-compose exec database psql -U postgres
+```
+
+== Redis CLI
+
+Use the following command to connect to the Redis instance:
+
+```bash
+docker-compose exec session redis-cli
+```
+
+== Testing
+
+To run all tests, use the following command:
+
+```bash
+./gradlew test
+```
+
+== License
+
+....
+Copyright (C) 2021 Bojan Stipic
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+....
