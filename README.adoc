@@ -15,6 +15,9 @@ endif::[]
 
 Spring Boot skeleton to kick-start your new application.
 
+image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/gradle.yml/badge.svg[Java CI with Gradle]
+image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/codeql-analysis.yml/badge.svg[CodeQL analysis]
+
 toc::[]
 
 == What is included?
