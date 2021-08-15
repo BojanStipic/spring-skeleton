@@ -53,13 +53,14 @@ public class UserService {
         }
     }
 
-    public void login(LoginReq loginReq) {
+    public UserRes login(LoginReq loginReq) {
         try {
             final var auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginReq.getEmail(),
                 loginReq.getPassword()
             ));
             SecurityContextHolder.getContext().setAuthentication(auth);
+            return findByEmail(auth.getName());
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

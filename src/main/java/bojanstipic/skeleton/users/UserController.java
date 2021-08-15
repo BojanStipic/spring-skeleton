@@ -36,10 +36,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(
+    public UserRes login(
         @RequestBody @Valid LoginReq loginReq
     ) {
-        userService.login(loginReq);
+        return userService.login(loginReq);
     }
 
     @RequestMapping(method = RequestMethod.HEAD, value = "/{email}")
