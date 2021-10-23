@@ -6,7 +6,7 @@ plugins {
 
 group = 'bojanstipic'
 version = '0.1.0'
-sourceCompatibility = '16'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
