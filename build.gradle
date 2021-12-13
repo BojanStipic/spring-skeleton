@@ -33,7 +33,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.5.12'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.0'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
