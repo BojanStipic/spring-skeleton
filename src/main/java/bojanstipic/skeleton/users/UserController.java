@@ -1,9 +1,12 @@
 package bojanstipic.skeleton.users;
 
+import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
+import bojanstipic.skeleton.users.dtos.LoginReq;
+import bojanstipic.skeleton.users.dtos.RegisterReq;
+import bojanstipic.skeleton.users.dtos.UserRes;
 import java.security.Principal;
-
 import javax.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
-import bojanstipic.skeleton.users.dtos.LoginReq;
-import bojanstipic.skeleton.users.dtos.RegisterReq;
-import bojanstipic.skeleton.users.dtos.UserRes;
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -29,16 +26,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserRes register(
-        @RequestBody @Valid RegisterReq registerReq
-    ) {
+    public UserRes register(@RequestBody @Valid RegisterReq registerReq) {
         return userService.register(registerReq);
     }
 
     @PostMapping("/login")
-    public UserRes login(
-        @RequestBody @Valid LoginReq loginReq
-    ) {
+    public UserRes login(@RequestBody @Valid LoginReq loginReq) {
         return userService.login(loginReq);
     }
 

@@ -1,7 +1,11 @@
 package bojanstipic.skeleton.users;
 
+import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
+import bojanstipic.skeleton.users.dtos.LoginReq;
+import bojanstipic.skeleton.users.dtos.RegisterReq;
+import bojanstipic.skeleton.users.dtos.UserRes;
 import javax.transaction.Transactional;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,12 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
-import bojanstipic.skeleton.users.dtos.LoginReq;
-import bojanstipic.skeleton.users.dtos.RegisterReq;
-import bojanstipic.skeleton.users.dtos.UserRes;
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -34,17 +32,19 @@ public class UserService {
         return userRepository
             .findByEmail(email)
             .map(userMapper::map)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+            );
     }
 
     public boolean existsByEmail(String email) {
-        return userRepository
-            .existsByEmail(email);
+        return userRepository.existsByEmail(email);
     }
 
     public UserRes register(RegisterReq registerReq) {
         try {
-            final var passwordHash = passwordEncoder.encode(registerReq.getPassword());
+            final var passwordHash = passwordEncoder.encode(
+                registerReq.getPassword()
+            );
             final var request = registerReq.withPassword(passwordHash);
             final var user = userRepository.save(userMapper.map(request));
             return userMapper.map(user);
@@ -55,10 +55,12 @@ public class UserService {
 
     public UserRes login(LoginReq loginReq) {
         try {
-            final var auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginReq.getEmail(),
-                loginReq.getPassword()
-            ));
+            final var auth = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginReq.getEmail(),
+                    loginReq.getPassword()
+                )
+            );
             SecurityContextHolder.getContext().setAuthentication(auth);
             return findByEmail(auth.getName());
         } catch (AuthenticationException e) {
@@ -70,12 +72,15 @@ public class UserService {
     public UserRes changePassword(String email, ChangePasswordReq changeReq) {
         final var user = userRepository
             .findByEmail(email)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+            );
 
-        if(!passwordEncoder.matches(
-            changeReq.getOldPassword(),
-            user.getPassword()
-        )) {
+        if (
+            !passwordEncoder.matches(
+                changeReq.getOldPassword(),
+                user.getPassword()
+            )
+        ) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 

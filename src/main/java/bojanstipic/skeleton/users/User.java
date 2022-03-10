@@ -6,13 +6,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NaturalId;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
 
 @Data
 @Builder
@@ -40,6 +38,7 @@ public class User {
     private Role role = Role.USER;
 
     public enum Role {
-        USER, ADMIN;
+        USER,
+        ADMIN,
     }
 }
