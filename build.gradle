@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "com.diffplug.spotless" version "6.3.0"
 }
 
 group = 'bojanstipic'
@@ -42,4 +43,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        prettier(['prettier': '2.5.1', 'prettier-plugin-java': '1.6.1']).config(['parser': 'java', 'tabWidth': 4])
+    }
 }
