@@ -15,8 +15,8 @@ endif::[]
 
 Spring Boot skeleton to kick-start your new application.
 
-image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/gradle.yml/badge.svg[Java CI with Gradle]
-image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/codeql-analysis.yml/badge.svg[CodeQL analysis]
+image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/ci.yml/badge.svg[CI]
+image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/codeql.yml/badge.svg[CodeQL]
 
 toc::[]
 
@@ -90,7 +90,7 @@ To run all tests, use the following command:
 == License
 
 ....
-Copyright (C) 2021 Bojan Stipic
+Copyright (C) 2021-2022 Bojan Stipic
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
