@@ -4,16 +4,15 @@ on:
   pull_request:
     branches: [ 'master' ]
 
-permissions:
-  contents: 'write'
-
 jobs:
   dependabot:
     runs-on: 'ubuntu-latest'
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    permissions:
+      contents: 'write'
+    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
       - uses: 'dependabot/fetch-metadata@v1.3.1'
-      - run: 'gh pr merge --auto --merge $PR_URL'
+      - run: 'gh pr merge --auto --merge "$PR_URL"'
         if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
