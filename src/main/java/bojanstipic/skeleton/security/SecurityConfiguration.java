@@ -2,34 +2,38 @@ package bojanstipic.skeleton.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
+    @Bean
+    public SecurityFilterChain fitlerChain(HttpSecurity http) throws Exception {
+        return http
             .csrf(csrf -> csrf.csrfTokenRepository(cookieCsrfTokenRepository()))
             .logout(logout ->
                 logout.logoutSuccessHandler(
                     new HttpStatusReturningLogoutSuccessHandler()
                 )
-            );
+            )
+            .build();
     }
 
     @Bean
-    CookieCsrfTokenRepository cookieCsrfTokenRepository() {
+    public CookieCsrfTokenRepository cookieCsrfTokenRepository() {
         final var cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
         cookieCsrfTokenRepository.setCookiePath("/");
         cookieCsrfTokenRepository.setCookieHttpOnly(false);
@@ -38,9 +42,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager authenticationManager(
+        AuthenticationConfiguration config
+    ) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
