@@ -29,6 +29,7 @@ toc::[]
 * OpenAPI 3.0 documentation and Swagger UI
 * Spring Boot Actuator
 * Spring Boot Devtools
+* Spotless with Prettier code formatter
 
 == Usage
 
@@ -85,6 +86,44 @@ To run all tests, use the following command:
 
 ```bash
 ./gradlew test
+```
+
+== Code formatting
+
+To run code formatter, use the following command:
+
+```bash
+./gradlew spotlessApply
+```
+
+== Registration and login flow
+
+The following is an example of registration and login flow using
+https://httpie.io/[httpie]:
+
+1. Register:
++
+```bash
+http ':8080/api/users' \
+    'Cookie: XSRF-TOKEN=token' 'X-XSRF-TOKEN: token' \
+    email=admin@example.com password=Password1
+```
+2. Login:
++
+```bash
+http --session=admin ':8080/api/users/login' \
+    'Cookie: XSRF-TOKEN=token' 'X-XSRF-TOKEN: token' \
+    email=admin@example.com password=Password1
+```
+3. Fetch use info
++
+```bash
+http --session=admin ':8080/api/users/me'
+```
+4. Logout
++
+```bash
+http --session=admin POST ':8080/api/logout'
 ```
 
 == License
