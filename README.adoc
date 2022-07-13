@@ -45,7 +45,7 @@ Use `init.sh` script to initialize a new project with the given group and artifa
 Build an image using Buildpacks and run as a Docker container:
 
 ```bash
-./gradlew bootBuildImage && docker-compose up
+./gradlew bootBuildImage && docker compose up
 ```
 
 == OpenAPI 3.0 documentation
