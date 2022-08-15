@@ -5,7 +5,6 @@ import bojanstipic.skeleton.users.dtos.LoginReq;
 import bojanstipic.skeleton.users.dtos.RegisterReq;
 import bojanstipic.skeleton.users.dtos.UserRes;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
@@ -35,6 +36,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Transactional
     public UserRes register(RegisterReq registerReq) {
         final var passwordHash = passwordEncoder.encode(
             registerReq.getPassword()
