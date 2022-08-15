@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+echo '[git hook] executing gradle spotlessApply before commit'
+./gradlew spotlessApply

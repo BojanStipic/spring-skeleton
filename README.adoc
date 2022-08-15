@@ -96,6 +96,17 @@ To run code formatter, use the following command:
 ./gradlew spotlessApply
 ```
 
+== Git hooks
+
+Pre-commit hook is available in `.githooks` directory.
+It is configured to run `./gradlew spotlessApply`.
+
+In order to use it, run the following command:
+
+```bash
+git config core.hooksPath .githooks
+```
+
 == Registration and login flow
 
 The following is an example of registration and login flow using
