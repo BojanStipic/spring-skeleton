@@ -21,6 +21,6 @@ services:
       POSTGRES_PASSWORD: postgres
 
   session:
-    image: redis:6.0-alpine
+    image: redis:7-alpine
     expose:
       - "6379"
