@@ -115,7 +115,7 @@ http --session=admin ':8080/api/users/login' \
     'Cookie: XSRF-TOKEN=token' 'X-XSRF-TOKEN: token' \
     email=admin@example.com password=Password1
 ```
-3. Fetch use info
+3. Fetch user info
 +
 ```bash
 http --session=admin ':8080/api/users/me'
