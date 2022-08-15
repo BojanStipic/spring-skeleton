@@ -8,10 +8,10 @@ import static org.mockito.Mockito.when;
 import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
 import bojanstipic.skeleton.users.dtos.RegisterReq;
 import bojanstipic.skeleton.users.dtos.UserRes;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -57,18 +57,17 @@ public class UserServiceTest {
 
         final var result = userService.findByEmail(user.getEmail());
 
-        assertThat(result).isEqualTo(userRes);
+        assertThat(result).hasValue(userRes);
     }
 
     @Test
-    public void findByEmailShouldThrowUserNotFound() {
+    public void findByEmailShouldReturnEmptyOptional() {
         when(userRepository.findByEmail("test@test"))
             .thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> userService.findByEmail("test@test"))
-            .isInstanceOf(ResponseStatusException.class)
-            .extracting("status")
-            .isEqualTo(HttpStatus.NOT_FOUND);
+        final var result = userService.findByEmail("test@test");
+
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -111,9 +110,7 @@ public class UserServiceTest {
             .thenThrow(DataIntegrityViolationException.class);
 
         assertThatThrownBy(() -> userService.register(registerReq))
-            .isInstanceOf(ResponseStatusException.class)
-            .extracting("status")
-            .isEqualTo(HttpStatus.CONFLICT);
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
@@ -147,8 +144,6 @@ public class UserServiceTest {
             .thenReturn(true);
         when(passwordEncoder.encode(changePasswordReq.getNewPassword()))
             .thenReturn(expected.getPassword());
-        when(userRepository.save(expected))
-            .then(AdditionalAnswers.returnsFirstArg());
         when(userMapper.map(expected)).thenReturn(expectedRes);
 
         final var result = userService.changePassword(
@@ -169,9 +164,7 @@ public class UserServiceTest {
                     ChangePasswordReq.builder().build()
                 )
             )
-            .isInstanceOf(ResponseStatusException.class)
-            .extracting("status")
-            .isEqualTo(HttpStatus.NOT_FOUND);
+            .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test

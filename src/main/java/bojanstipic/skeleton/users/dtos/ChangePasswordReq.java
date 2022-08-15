@@ -1,5 +1,6 @@
 package bojanstipic.skeleton.users.dtos;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
@@ -13,9 +14,11 @@ public class ChangePasswordReq {
 
     @Size(min = 8)
     @Pattern(regexp = "(?U)^(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\d).+$")
+    @NotBlank
     String oldPassword;
 
     @Size(min = 8)
     @Pattern(regexp = "(?U)^(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\d).+$")
+    @NotBlank
     String newPassword;
 }

@@ -19,5 +19,6 @@ public class LoginReq {
 
     @Size(min = 8)
     @Pattern(regexp = "(?U)^(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\d).+$")
+    @NotBlank
     String password;
 }
