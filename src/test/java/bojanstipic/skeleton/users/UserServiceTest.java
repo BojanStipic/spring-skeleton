@@ -1,8 +1,9 @@
 package bojanstipic.skeleton.users;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
 import bojanstipic.skeleton.users.dtos.RegisterReq;
@@ -13,9 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -50,26 +51,24 @@ public class UserServiceTest {
             .lastName("test")
             .build();
 
-        Mockito
-            .when(userRepository.findByEmail("test@test"))
+        when(userRepository.findByEmail("test@test"))
             .thenReturn(Optional.of(user));
-        Mockito.when(userMapper.map(user)).thenReturn(userRes);
+        when(userMapper.map(user)).thenReturn(userRes);
 
         final var result = userService.findByEmail(user.getEmail());
 
-        assertEquals(userRes, result);
+        assertThat(result).isEqualTo(userRes);
     }
 
     @Test
     public void findByEmailShouldThrowUserNotFound() {
-        Mockito
-            .when(userRepository.findByEmail("test@test"))
+        when(userRepository.findByEmail("test@test"))
             .thenReturn(Optional.empty());
 
-        assertThrows(
-            ResponseStatusException.class,
-            () -> userService.findByEmail("test@test")
-        );
+        assertThatThrownBy(() -> userService.findByEmail("test@test"))
+            .isInstanceOf(ResponseStatusException.class)
+            .extracting("status")
+            .isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -89,18 +88,15 @@ public class UserServiceTest {
             .build();
         final var userRes = UserRes.builder().email("test@test").build();
 
-        Mockito
-            .when(passwordEncoder.encode(registerReq.getPassword()))
+        when(passwordEncoder.encode(registerReq.getPassword()))
             .thenReturn(registerReqWithHashedPassword.getPassword());
-        Mockito
-            .when(userMapper.map(registerReqWithHashedPassword))
-            .thenReturn(user);
-        Mockito.when(userRepository.save(user)).thenReturn(user);
-        Mockito.when(userMapper.map(user)).thenReturn(userRes);
+        when(userMapper.map(registerReqWithHashedPassword)).thenReturn(user);
+        when(userRepository.save(user)).thenReturn(user);
+        when(userMapper.map(user)).thenReturn(userRes);
 
         final var result = userService.register(registerReq);
 
-        assertEquals(userRes, result);
+        assertThat(result).isEqualTo(userRes);
     }
 
     @Test
@@ -111,14 +107,13 @@ public class UserServiceTest {
             .password("1234qwerQWER")
             .build();
 
-        Mockito
-            .when(userRepository.save(any()))
+        when(userRepository.save(any()))
             .thenThrow(DataIntegrityViolationException.class);
 
-        assertThrows(
-            ResponseStatusException.class,
-            () -> userService.register(registerReq)
-        );
+        assertThatThrownBy(() -> userService.register(registerReq))
+            .isInstanceOf(ResponseStatusException.class)
+            .extracting("status")
+            .isEqualTo(HttpStatus.CONFLICT);
     }
 
     @Test
@@ -141,63 +136,58 @@ public class UserServiceTest {
             .build();
         final var expectedRes = UserRes.builder().email("test@test").build();
 
-        Mockito
-            .when(userRepository.findByEmail(user.getEmail()))
+        when(userRepository.findByEmail(user.getEmail()))
             .thenReturn(Optional.of(user));
-        Mockito
-            .when(
-                passwordEncoder.matches(
-                    changePasswordReq.getOldPassword(),
-                    user.getPassword()
-                )
+        when(
+            passwordEncoder.matches(
+                changePasswordReq.getOldPassword(),
+                user.getPassword()
             )
+        )
             .thenReturn(true);
-        Mockito
-            .when(passwordEncoder.encode(changePasswordReq.getNewPassword()))
+        when(passwordEncoder.encode(changePasswordReq.getNewPassword()))
             .thenReturn(expected.getPassword());
-        Mockito
-            .when(userRepository.save(expected))
+        when(userRepository.save(expected))
             .then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(userMapper.map(expected)).thenReturn(expectedRes);
+        when(userMapper.map(expected)).thenReturn(expectedRes);
 
         final var result = userService.changePassword(
             user.getEmail(),
             changePasswordReq
         );
 
-        assertEquals(expectedRes, result);
+        assertThat(result).isEqualTo(expectedRes);
     }
 
     @Test
     public void changePasswordShouldThrowUserNotFound() {
-        Mockito
-            .when(userRepository.findByEmail(any()))
-            .thenReturn(Optional.empty());
+        when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
 
-        assertThrows(
-            ResponseStatusException.class,
-            () ->
+        assertThatThrownBy(() ->
                 userService.changePassword(
                     "test@test",
                     ChangePasswordReq.builder().build()
                 )
-        );
+            )
+            .isInstanceOf(ResponseStatusException.class)
+            .extracting("status")
+            .isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
     public void changePasswordShouldThrowPasswordMismatch() {
-        Mockito
-            .when(userRepository.findByEmail(any()))
+        when(userRepository.findByEmail(any()))
             .thenReturn(Optional.of(User.builder().build()));
-        Mockito.when(passwordEncoder.matches(any(), any())).thenReturn(false);
+        when(passwordEncoder.matches(any(), any())).thenReturn(false);
 
-        assertThrows(
-            ResponseStatusException.class,
-            () ->
+        assertThatThrownBy(() ->
                 userService.changePassword(
                     "test@test",
                     ChangePasswordReq.builder().build()
                 )
-        );
+            )
+            .isInstanceOf(ResponseStatusException.class)
+            .extracting("status")
+            .isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }
