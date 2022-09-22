@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432" # exposed for dbeaver in dev environment
     volumes:
-      - ./volumes/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -24,3 +24,6 @@ services:
     image: redis:7-alpine
     expose:
       - "6379"
+
+volumes:
+  postgres_data:
