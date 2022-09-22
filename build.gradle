@@ -7,11 +7,10 @@ plugins {
 
 group = 'bojanstipic'
 version = '0.1.0'
-sourceCompatibility = '18'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(18)
     }
 }
 
