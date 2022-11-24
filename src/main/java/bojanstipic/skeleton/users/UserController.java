@@ -38,13 +38,13 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/me")
+    @GetMapping("/self")
     @PreAuthorize("isAuthenticated()")
     public UserRes getAuthenticatedUser(Principal principal) {
         return userService.findByEmail(principal.getName()).orElseThrow();
     }
 
-    @PutMapping("/me/password")
+    @PutMapping("/self/password")
     @PreAuthorize("isAuthenticated()")
     public UserRes changePassword(
         Principal principal,

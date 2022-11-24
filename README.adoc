@@ -145,7 +145,7 @@ http --session=admin ':8080/api/login' \
 3. Fetch user info
 +
 ```bash
-http --session=admin ':8080/api/users/me'
+http --session=admin ':8080/api/users/self'
 ```
 4. Logout
 +
