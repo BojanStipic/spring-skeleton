@@ -7,12 +7,7 @@ plugins {
 
 group = 'bojanstipic'
 version = '0.1.0'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(18)
-    }
-}
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
