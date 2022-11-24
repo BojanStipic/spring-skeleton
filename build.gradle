@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.6'
-    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
-    id "com.diffplug.spotless" version "6.11.0"
+    id 'org.springframework.boot' version '3.0.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.diffplug.spotless' version '6.11.0'
 }
 
 group = 'bojanstipic'
@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'org.postgresql:postgresql'
-    implementation 'com.vladmihalcea:hibernate-types-55:2.20.0'
+    implementation 'com.vladmihalcea:hibernate-types-60:2.20.0'
     implementation 'org.flywaydb:flyway-core'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -42,7 +42,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-test {
+tasks.named('test') {
     useJUnitPlatform()
 }
 

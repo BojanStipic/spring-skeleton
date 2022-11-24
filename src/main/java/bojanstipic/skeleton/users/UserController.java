@@ -4,8 +4,10 @@ import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
 import bojanstipic.skeleton.users.dtos.LoginReq;
 import bojanstipic.skeleton.users.dtos.RegisterReq;
 import bojanstipic.skeleton.users.dtos.UserRes;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.security.Principal;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,8 +33,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserRes login(@RequestBody @Valid LoginReq loginReq) {
-        return userService.login(loginReq);
+    public UserRes login(
+        @RequestBody @Valid LoginReq loginReq,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) {
+        return userService.login(loginReq, request, response);
     }
 
     @RequestMapping(method = RequestMethod.HEAD, value = "/{email}")

@@ -4,6 +4,8 @@ import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
 import bojanstipic.skeleton.users.dtos.LoginReq;
 import bojanstipic.skeleton.users.dtos.RegisterReq;
 import bojanstipic.skeleton.users.dtos.UserRes;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,6 +30,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authManager;
+
+    private final SecurityContextRepository securityContextRepository;
 
     public Optional<UserRes> findByEmail(String email) {
         return userRepository.findByEmail(email).map(userMapper::map);
@@ -47,14 +52,20 @@ public class UserService {
         return userMapper.map(user);
     }
 
-    public UserRes login(LoginReq loginReq) {
+    public UserRes login(
+        LoginReq loginReq,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) {
         final var auth = authManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginReq.getEmail(),
                 loginReq.getPassword()
             )
         );
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        final var context = SecurityContextHolder.getContext();
+        context.setAuthentication(auth);
+        securityContextRepository.saveContext(context, request, response);
 
         return findByEmail(auth.getName()).get();
     }

@@ -3,15 +3,12 @@ package bojanstipic.skeleton;
 import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
@@ -19,38 +16,28 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<Void> handle(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ProblemDetail handle(NoSuchElementException e) {
+        return ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<Void> handle(DataIntegrityViolationException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-        MethodArgumentNotValidException ex,
-        HttpHeaders headers,
-        HttpStatus status,
-        WebRequest request
-    ) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ProblemDetail handle(DataIntegrityViolationException e) {
+        return ProblemDetail.forStatus(HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<Void> handle(AuthenticationException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ProblemDetail handle(AuthenticationException e) {
+        return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<Void> handle(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ProblemDetail handle(AccessDeniedException e) {
+        return ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler
-    public ResponseEntity<Void> handle(Throwable e) {
+    public ProblemDetail handle(Throwable e) {
         log.error("Internal server error", e);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
