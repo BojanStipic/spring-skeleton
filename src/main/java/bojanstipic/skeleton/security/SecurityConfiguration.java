@@ -30,7 +30,9 @@ public class SecurityConfiguration {
         return http
             .csrf(csrf ->
                 csrf
-                    .csrfTokenRepository(cookieCsrfTokenRepository())
+                    .csrfTokenRepository(
+                        CookieCsrfTokenRepository.withHttpOnlyFalse()
+                    )
                     .csrfTokenRequestHandler(
                         new CsrfTokenRequestAttributeHandler()
                     )
@@ -41,15 +43,6 @@ public class SecurityConfiguration {
                 )
             )
             .build();
-    }
-
-    @Bean
-    public CookieCsrfTokenRepository cookieCsrfTokenRepository() {
-        final var cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
-        cookieCsrfTokenRepository.setCookiePath("/");
-        cookieCsrfTokenRepository.setCookieHttpOnly(false);
-
-        return cookieCsrfTokenRepository;
     }
 
     @Bean
