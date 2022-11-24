@@ -1,9 +1,9 @@
 package bojanstipic.skeleton.users.dtos;
 
+import bojanstipic.skeleton.users.validators.Password;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Value;
 import lombok.With;
@@ -17,9 +17,7 @@ public class RegisterReq {
     @NotBlank
     String email;
 
-    @Size(min = 8)
-    @Pattern(regexp = "(?U)^(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\d).+$")
-    @NotBlank
+    @Password
     String password;
 
     @Pattern(regexp = "(?U)\\p{Alpha}*")
