@@ -1,11 +1,8 @@
 package bojanstipic.skeleton.users;
 
 import bojanstipic.skeleton.users.dtos.ChangePasswordReq;
-import bojanstipic.skeleton.users.dtos.LoginReq;
 import bojanstipic.skeleton.users.dtos.RegisterReq;
 import bojanstipic.skeleton.users.dtos.UserRes;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
@@ -30,15 +27,6 @@ public class UserController {
     @PostMapping
     public UserRes register(@RequestBody @Valid RegisterReq registerReq) {
         return userService.register(registerReq);
-    }
-
-    @PostMapping("/login")
-    public UserRes login(
-        @RequestBody @Valid LoginReq loginReq,
-        HttpServletRequest request,
-        HttpServletResponse response
-    ) {
-        return userService.login(loginReq, request, response);
     }
 
     @RequestMapping(method = RequestMethod.HEAD, value = "/{email}")

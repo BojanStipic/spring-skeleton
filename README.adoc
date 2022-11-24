@@ -138,7 +138,7 @@ http ':8080/api/users' \
 2. Login:
 +
 ```bash
-http --session=admin ':8080/api/users/login' \
+http --session=admin ':8080/api/login' \
     'Cookie: XSRF-TOKEN=token' 'X-XSRF-TOKEN: token' \
     email=admin@example.com password=Password1
 ```

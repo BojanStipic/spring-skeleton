@@ -1,4 +1,4 @@
-package bojanstipic.skeleton.users.dtos;
+package bojanstipic.skeleton.security;
 
 import bojanstipic.skeleton.users.validators.Password;
 import jakarta.validation.constraints.Email;
