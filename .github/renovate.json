@@ -4,5 +4,6 @@
   "labels": ["dependencies"],
   "schedule": ["after 11am on the first day of the month"],
   "prHourlyLimit": 0,
-  "rangeStrategy": "bump"
+  "rangeStrategy": "bump",
+  "ignoreDeps": ["skeleton"]
 }
