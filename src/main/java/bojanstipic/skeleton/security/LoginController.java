@@ -1,9 +1,10 @@
 package bojanstipic.skeleton.security;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final LoginService loginService;
-
     @PostMapping
     public void login(
         @RequestBody @Valid LoginReq loginReq,
-        HttpServletRequest request,
-        HttpServletResponse response
+        HttpServletRequest request
     ) {
-        loginService.login(loginReq, request, response);
+        try {
+            request.login(loginReq.getEmail(), loginReq.getPassword());
+        } catch (ServletException e) {
+            throw new BadCredentialsException("Bad credentials");
+        }
     }
 }
