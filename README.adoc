@@ -128,26 +128,32 @@ git config core.hooksPath .githooks
 The following is an example of registration and login flow using
 https://httpie.io/[httpie]:
 
-1. Register:
+. Get a CSRF token:
 +
 ```bash
-http ':8080/users' \
-    'Cookie: XSRF-TOKEN=token' 'X-XSRF-TOKEN: token' \
-    email=admin@example.com password=Password1
+http --session=admin --offline --quiet ':8080' \
+    "X-XSRF-TOKEN: $(http --session=admin ':8080/csrf' | jq --raw-output .token)"
 ```
-2. Login:
+
+. Register:
 +
 ```bash
-http --session=admin ':8080/login' \
-    'Cookie: XSRF-TOKEN=token' 'X-XSRF-TOKEN: token' \
-    email=admin@example.com password=Password1
+http --session=admin ':8080/users' email=admin@example.com password=Password1
 ```
-3. Fetch user info
+
+. Login:
++
+```bash
+http --session=admin ':8080/login' email=admin@example.com password=Password1
+```
+
+. Fetch user info
 +
 ```bash
 http --session=admin ':8080/users/self'
 ```
-4. Logout
+
+. Logout
 +
 ```bash
 http --session=admin POST ':8080/logout'
