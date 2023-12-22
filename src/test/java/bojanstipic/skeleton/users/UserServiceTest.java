@@ -87,8 +87,8 @@ public class UserServiceTest {
             .build();
         final var userRes = UserRes.builder().email("test@test").build();
 
-        when(passwordEncoder.encode(registerReq.getPassword()))
-            .thenReturn(registerReqWithHashedPassword.getPassword());
+        when(passwordEncoder.encode(registerReq.password()))
+            .thenReturn(registerReqWithHashedPassword.password());
         when(userMapper.map(registerReqWithHashedPassword)).thenReturn(user);
         when(userRepository.save(user)).thenReturn(user);
         when(userMapper.map(user)).thenReturn(userRes);
@@ -137,12 +137,12 @@ public class UserServiceTest {
             .thenReturn(Optional.of(user));
         when(
             passwordEncoder.matches(
-                changePasswordReq.getOldPassword(),
+                changePasswordReq.oldPassword(),
                 user.getPassword()
             )
         )
             .thenReturn(true);
-        when(passwordEncoder.encode(changePasswordReq.getNewPassword()))
+        when(passwordEncoder.encode(changePasswordReq.newPassword()))
             .thenReturn(expected.getPassword());
         when(userMapper.map(expected)).thenReturn(expectedRes);
 

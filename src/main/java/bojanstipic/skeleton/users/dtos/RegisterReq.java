@@ -5,24 +5,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
-import lombok.Value;
 import lombok.With;
 
-@Value
 @Builder
 @With
-public class RegisterReq {
+public record RegisterReq(
+    @Email @NotBlank String email,
 
-    @Email
-    @NotBlank
-    String email;
+    @Password String password,
 
-    @Password
-    String password;
+    @Pattern(regexp = "(?U)\\p{Alpha}*") String name,
 
-    @Pattern(regexp = "(?U)\\p{Alpha}*")
-    String name;
-
-    @Pattern(regexp = "(?U)\\p{Alpha}*")
-    String lastName;
-}
+    @Pattern(regexp = "(?U)\\p{Alpha}*") String lastName
+) {}

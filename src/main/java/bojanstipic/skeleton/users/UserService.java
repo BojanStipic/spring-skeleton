@@ -32,9 +32,7 @@ public class UserService {
 
     @Transactional
     public UserRes register(RegisterReq registerReq) {
-        final var passwordHash = passwordEncoder.encode(
-            registerReq.getPassword()
-        );
+        final var passwordHash = passwordEncoder.encode(registerReq.password());
         final var request = registerReq.withPassword(passwordHash);
         final var user = userRepository.save(userMapper.map(request));
 
@@ -46,14 +44,14 @@ public class UserService {
         final var user = userRepository.findByEmail(email).orElseThrow();
 
         final var isPasswordMatching = passwordEncoder.matches(
-            changeReq.getOldPassword(),
+            changeReq.oldPassword(),
             user.getPassword()
         );
         if (!isPasswordMatching) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        user.setPassword(passwordEncoder.encode(changeReq.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(changeReq.newPassword()));
 
         return userMapper.map(user);
     }

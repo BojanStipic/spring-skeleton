@@ -2,19 +2,16 @@ package bojanstipic.skeleton.users.dtos;
 
 import bojanstipic.skeleton.users.User;
 import lombok.Builder;
-import lombok.Value;
 import lombok.With;
 
-@Value
 @Builder
 @With
-public class UserRes {
+public record UserRes(
+    String email,
 
-    String email;
+    String name,
 
-    String name;
+    String lastName,
 
-    String lastName;
-
-    User.Role role;
-}
+    User.Role role
+) {}

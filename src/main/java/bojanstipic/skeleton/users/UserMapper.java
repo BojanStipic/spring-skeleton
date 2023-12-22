@@ -12,10 +12,10 @@ public class UserMapper {
     User map(RegisterReq registerReq) {
         return User
             .builder()
-            .email(registerReq.getEmail())
-            .password(registerReq.getPassword())
-            .name(registerReq.getName())
-            .lastName(registerReq.getLastName())
+            .email(registerReq.email())
+            .password(registerReq.password())
+            .name(registerReq.name())
+            .lastName(registerReq.lastName())
             .build();
     }
 

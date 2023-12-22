@@ -21,7 +21,7 @@ public class LoginController {
         HttpServletRequest request
     ) {
         try {
-            request.login(loginReq.getEmail(), loginReq.getPassword());
+            request.login(loginReq.email(), loginReq.password());
         } catch (ServletException e) {
             throw new BadCredentialsException("Bad credentials");
         }
