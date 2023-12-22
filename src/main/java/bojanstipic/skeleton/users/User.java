@@ -1,5 +1,6 @@
 package bojanstipic.skeleton.users;
 
+import bojanstipic.skeleton.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,19 +11,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.type.SqlTypes;
 
-@Data
-@Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Getter
+@Setter
+@SuperBuilder
 @Table(name = "application_user")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(
