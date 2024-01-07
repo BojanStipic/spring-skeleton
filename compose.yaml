@@ -14,5 +14,34 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
 
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    ports:
+      - "127.0.0.1:4318:4318"
+    volumes:
+      - ./docker/otel-collector/otel-collector.yml:/etc/otelcol-contrib/config.yaml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./docker/grafana/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+
+  tempo:
+    image: grafana/tempo
+    command: [ "-config.file=/etc/tempo.yml" ]
+    volumes:
+      - ./docker/tempo/tempo.yml:/etc/tempo.yml
+      - tempo_data:/tmp/tempo
+
 volumes:
   postgres_data:
+  prometheus_data:
+  tempo_data:

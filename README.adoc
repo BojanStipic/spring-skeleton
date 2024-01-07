@@ -30,6 +30,7 @@ toc::[]
 * Spring Boot Actuator
 * Spring Boot Devtools
 * Spotless with Prettier code formatter
+* Observability with OpenTelemetry + Loki + Prometheus + Tempo + Grafana
 
 == Usage
 
@@ -79,6 +80,11 @@ For example, the following command will list all available endpoints:
 Swagger UI is available to visualize and interact with the API's resources.
 It is available on the following link:
 http://localhost:8080/swagger-ui.html
+
+== Observability
+
+Logs, metrics and tracing are available in Grafana on the following link:
+http://localhost:3000
 
 == Postgres CLI
 

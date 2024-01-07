@@ -1,4 +1,4 @@
-default:
+_default:
 	@just --list --unsorted
 
 run-prod:
@@ -28,6 +28,9 @@ format:
 
 docs:
 	xdg-open 'http://localhost:8080/swagger-ui.html'
+
+observe:
+	xdg-open 'http://localhost:3000'
 
 postgres-cli:
 	docker-compose exec database psql -U postgres
