@@ -18,6 +18,7 @@ services:
     image: otel/opentelemetry-collector-contrib
     ports:
       - "127.0.0.1:4318:4318"
+      - "127.0.0.1:4317:4317"
     volumes:
       - ./docker/otel-collector/otel-collector.yml:/etc/otelcol-contrib/config.yaml
 
@@ -27,6 +28,9 @@ services:
       - "127.0.0.1:3000:3000"
     volumes:
       - ./docker/grafana/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+
+  loki:
+    image: grafana/loki
 
   prometheus:
     image: prom/prometheus

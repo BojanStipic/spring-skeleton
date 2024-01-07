@@ -2,6 +2,7 @@ receivers:
   otlp:
     protocols:
       http:
+      grpc:
 
 processors:
   batch:
@@ -9,6 +10,8 @@ processors:
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
   otlp:
     endpoint: "tempo:4317"
     tls:
@@ -26,6 +29,10 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki]
     traces:
       receivers: [otlp]
       processors: [batch]
