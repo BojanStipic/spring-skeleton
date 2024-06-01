@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     User map(RegisterReq registerReq) {
-        return User
-            .builder()
+        return User.builder()
             .email(registerReq.email())
             .password(registerReq.password())
             .name(registerReq.name())
@@ -20,8 +19,7 @@ public class UserMapper {
     }
 
     UserRes map(User user) {
-        return UserRes
-            .builder()
+        return UserRes.builder()
             .email(user.getEmail())
             .name(user.getName())
             .lastName(user.getLastName())

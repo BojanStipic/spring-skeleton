@@ -28,19 +28,21 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf ->
-                csrf
-                    .csrfTokenRepository(
-                        CookieCsrfTokenRepository.withHttpOnlyFalse()
-                    )
-                    .csrfTokenRequestHandler(
-                        new CsrfTokenRequestAttributeHandler()
-                    )
+            .csrf(
+                csrf ->
+                    csrf
+                        .csrfTokenRepository(
+                            CookieCsrfTokenRepository.withHttpOnlyFalse()
+                        )
+                        .csrfTokenRequestHandler(
+                            new CsrfTokenRequestAttributeHandler()
+                        )
             )
-            .logout(logout ->
-                logout.logoutSuccessHandler(
-                    new HttpStatusReturningLogoutSuccessHandler()
-                )
+            .logout(
+                logout ->
+                    logout.logoutSuccessHandler(
+                        new HttpStatusReturningLogoutSuccessHandler()
+                    )
             )
             .build();
     }
@@ -57,8 +59,7 @@ public class SecurityConfiguration {
                 .findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-            return User
-                .builder()
+            return User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
                 .roles(user.getRole().toString())

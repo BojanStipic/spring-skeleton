@@ -27,8 +27,7 @@ public class OpenTelemetryConfig {
         SdkTracerProvider sdkTracerProvider,
         ContextPropagators contextPropagators
     ) {
-        OpenTelemetrySdk openTelemetrySdk = OpenTelemetrySdk
-            .builder()
+        OpenTelemetrySdk openTelemetrySdk = OpenTelemetrySdk.builder()
             .setLoggerProvider(sdkLoggerProvider)
             .setTracerProvider(sdkTracerProvider)
             .setPropagators(contextPropagators)
@@ -49,8 +48,7 @@ public class OpenTelemetryConfig {
         Resource springResource = Resource.create(
             Attributes.of(ResourceAttributes.SERVICE_NAME, applicationName)
         );
-        SdkLoggerProviderBuilder builder = SdkLoggerProvider
-            .builder()
+        SdkLoggerProviderBuilder builder = SdkLoggerProvider.builder()
             .setResource(Resource.getDefault().merge(springResource));
         logRecordProcessors
             .orderedStream()
@@ -60,13 +58,10 @@ public class OpenTelemetryConfig {
 
     @Bean
     LogRecordProcessor otelLogRecordProcessor() {
-        return BatchLogRecordProcessor
-            .builder(
-                OtlpGrpcLogRecordExporter
-                    .builder()
-                    .setEndpoint("http://localhost:4317")
-                    .build()
-            )
-            .build();
+        return BatchLogRecordProcessor.builder(
+            OtlpGrpcLogRecordExporter.builder()
+                .setEndpoint("http://localhost:4317")
+                .build()
+        ).build();
     }
 }
