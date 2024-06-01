@@ -56,6 +56,7 @@ tasks.named('test') {
 spotless {
     java {
         removeUnusedImports()
-        prettier(['prettier': '2.7.1', 'prettier-plugin-java': '1.6.2']).config(['tabWidth': 4])
+        prettier(['prettier': '3.2.5', 'prettier-plugin-java': '2.6.0'])
+            .config(['tabWidth': 4, 'plugins': ['prettier-plugin-java']])
     }
 }

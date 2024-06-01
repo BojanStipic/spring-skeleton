@@ -28,8 +28,7 @@ class UserControllerTests {
         var lastName = "LastName";
 
         var result = userController.register(
-            RegisterReq
-                .builder()
+            RegisterReq.builder()
                 .email(email)
                 .password(password)
                 .name(name)
@@ -37,15 +36,13 @@ class UserControllerTests {
                 .build()
         );
 
-        assertThat(result)
-            .isEqualTo(
-                UserRes
-                    .builder()
-                    .email(email)
-                    .name(name)
-                    .lastName(lastName)
-                    .role(Role.USER)
-                    .build()
-            );
+        assertThat(result).isEqualTo(
+            UserRes.builder()
+                .email(email)
+                .name(name)
+                .lastName(lastName)
+                .role(Role.USER)
+                .build()
+        );
     }
 }
