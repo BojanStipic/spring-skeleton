@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.0'
+    id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
     id 'com.diffplug.spotless' version '6.25.0'
 }
@@ -39,7 +39,7 @@ dependencies {
     implementation 'io.opentelemetry:opentelemetry-exporter-otlp-common'
     implementation 'io.opentelemetry.instrumentation:opentelemetry-instrumentation-api-semconv:1.32.0-alpha'
     implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:1.32.0-alpha'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
