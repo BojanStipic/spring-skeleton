@@ -15,8 +15,8 @@ endif::[]
 
 Spring Boot skeleton to kick-start your new application.
 
-image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/ci.yml/badge.svg[CI]
-image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/codeql.yml/badge.svg[CodeQL]
+image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/ci.yml/badge.svg[CI, link="https://github.com/BojanStipic/spring-skeleton/actions/workflows/ci.yml"]
+image:https://github.com/BojanStipic/spring-skeleton/actions/workflows/github-code-scanning/codeql/badge.svg[CodeQL, link="https://github.com/BojanStipic/spring-skeleton/actions/workflows/github-code-scanning/codeql"]
 
 toc::[]
 
