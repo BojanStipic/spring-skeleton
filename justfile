@@ -1,17 +1,13 @@
 _default:
 	@just --list --unsorted
 
-run-prod:
-	./gradlew bootBuildImage
-	docker compose -f compose-prod.yaml up
-
-run-dev: start-dev-dependencies
+run: start-deps
 	./gradlew bootRun
 
-start-dev-dependencies:
+start-deps:
 	docker compose up -d
 
-stop-dev-dependencies:
+stop-deps:
 	docker compose down
 
 test-all:

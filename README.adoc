@@ -44,8 +44,6 @@ Use `init.sh` script to initialize a new project with the given group and artifa
 
 === Build and run
 
-==== Local development
-
 Run external service dependencies in Docker:
 
 ```bash
@@ -56,14 +54,6 @@ Build and run the app locally:
 
 ```bash
 ./gradlew bootRun
-```
-
-==== Prod deployment
-
-Build an image using Buildpacks and run everything inside Docker:
-
-```bash
-./gradlew bootBuildImage && docker compose -f compose-prod.yaml up
 ```
 
 == OpenAPI 3.0 documentation
