@@ -1,48 +1,73 @@
 package bojanstipic.skeleton.users;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import bojanstipic.skeleton.users.User.Role;
-import bojanstipic.skeleton.users.dtos.RegisterReq;
-import bojanstipic.skeleton.users.dtos.UserRes;
+import bojanstipic.skeleton.TestBase;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestInstance(Lifecycle.PER_CLASS)
-class UserControllerTests {
+class UserControllerTests extends TestBase {
 
     @Autowired
-    private UserController userController;
+    private MockMvcTester mockMvcTester;
 
     @Test
+    @DisplayName("Should register a new user")
     void shouldRegister() {
-        var email = "new_user@example.com";
-        var password = "Password1";
-        var name = "Name";
-        var lastName = "LastName";
+        var req =
+            """
+                {
+                    "email": "new_user@example.com",
+                    "password": "Password1",
+                    "name": "Name",
+                    "lastName": "LastName"
+                }
+            """;
 
-        var result = userController.register(
-            RegisterReq.builder()
-                .email(email)
-                .password(password)
-                .name(name)
-                .lastName(lastName)
-                .build()
-        );
+        var expectedRes =
+            """
+                {
+                    "email": "new_user@example.com",
+                    "name": "Name",
+                    "lastName": "LastName",
+                    "role": "USER"
+                }
+            """;
 
-        assertThat(result).isEqualTo(
-            UserRes.builder()
-                .email(email)
-                .name(name)
-                .lastName(lastName)
-                .role(Role.USER)
-                .build()
-        );
+        mockMvcTester
+            .post()
+            .uri("/users")
+            .with(SecurityMockMvcRequestPostProcessors.csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(req)
+            .assertThat()
+            .hasStatusOk()
+            .bodyJson()
+            .isLenientlyEqualTo(expectedRes);
+    }
+
+    @Test
+    @DisplayName("Should return 400 when email is not specified")
+    void shouldReturn400WhenEmailIsNotSpecified() {
+        var req =
+            """
+            {
+            "password": "Password1",
+            "name": "Name",
+            "lastName": "LastName"
+            }
+            """;
+
+        mockMvcTester
+            .post()
+            .uri("/users")
+            .with(SecurityMockMvcRequestPostProcessors.csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(req)
+            .assertThat()
+            .hasStatus(HttpStatus.BAD_REQUEST);
     }
 }
