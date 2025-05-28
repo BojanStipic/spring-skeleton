@@ -11,10 +11,10 @@ stop-deps:
 	docker compose down
 
 test-all:
-	./gradlew test
+	./gradlew test --info
 
 test TEST:
-	./gradlew test --tests "{{TEST}}"
+	./gradlew test --info --tests "{{TEST}}"
 
 test-report:
 	xdg-open build/reports/tests/test/index.html
