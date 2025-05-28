@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
-class UserControllerTests extends TestBase {
+class RegistrationTests extends TestBase {
 
     @Autowired
     private MockMvcTester mockMvcTester;
@@ -54,11 +54,11 @@ class UserControllerTests extends TestBase {
     void shouldReturn400WhenEmailIsNotSpecified() {
         var req =
             """
-            {
-            "password": "Password1",
-            "name": "Name",
-            "lastName": "LastName"
-            }
+                {
+                    "password": "Password1",
+                    "name": "Name",
+                    "lastName": "LastName"
+                }
             """;
 
         mockMvcTester
