@@ -1,4 +1,4 @@
-create type user_role as enum ('USER', 'ADMIN');
+create type user_role as enum('USER', 'ADMIN');
 
 create table application_user (
     id bigint primary key,

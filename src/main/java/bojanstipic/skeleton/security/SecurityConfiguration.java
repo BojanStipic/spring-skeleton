@@ -28,21 +28,19 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(
-                csrf ->
-                    csrf
-                        .csrfTokenRepository(
-                            CookieCsrfTokenRepository.withHttpOnlyFalse()
-                        )
-                        .csrfTokenRequestHandler(
-                            new CsrfTokenRequestAttributeHandler()
-                        )
-            )
-            .logout(
-                logout ->
-                    logout.logoutSuccessHandler(
-                        new HttpStatusReturningLogoutSuccessHandler()
+            .csrf(csrf ->
+                csrf
+                    .csrfTokenRepository(
+                        CookieCsrfTokenRepository.withHttpOnlyFalse()
                     )
+                    .csrfTokenRequestHandler(
+                        new CsrfTokenRequestAttributeHandler()
+                    )
+            )
+            .logout(logout ->
+                logout.logoutSuccessHandler(
+                    new HttpStatusReturningLogoutSuccessHandler()
+                )
             )
             .build();
     }

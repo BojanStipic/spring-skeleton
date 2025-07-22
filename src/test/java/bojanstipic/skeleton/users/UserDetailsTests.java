@@ -34,14 +34,13 @@ class UserDetailsTests extends TestBase {
                 .build()
         );
 
-        var expectedRes =
-            """
-                {
-                    "email": "test@example.com",
-                    "name": "Test",
-                    "lastName": "Test",
-                    "role": "USER"
-                }
+        var expectedRes = """
+            {
+                "email": "test@example.com",
+                "name": "Test",
+                "lastName": "Test",
+                "role": "USER"
+            }
             """;
 
         mockMvcTester

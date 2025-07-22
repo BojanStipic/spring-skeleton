@@ -17,24 +17,22 @@ class RegistrationTests extends TestBase {
     @Test
     @DisplayName("Should register a new user")
     void shouldRegister() {
-        var req =
-            """
-                {
-                    "email": "new_user@example.com",
-                    "password": "Password1",
-                    "name": "Name",
-                    "lastName": "LastName"
-                }
+        var req = """
+            {
+                "email": "new_user@example.com",
+                "password": "Password1",
+                "name": "Name",
+                "lastName": "LastName"
+            }
             """;
 
-        var expectedRes =
-            """
-                {
-                    "email": "new_user@example.com",
-                    "name": "Name",
-                    "lastName": "LastName",
-                    "role": "USER"
-                }
+        var expectedRes = """
+            {
+                "email": "new_user@example.com",
+                "name": "Name",
+                "lastName": "LastName",
+                "role": "USER"
+            }
             """;
 
         mockMvcTester
@@ -52,13 +50,12 @@ class RegistrationTests extends TestBase {
     @Test
     @DisplayName("Should return 400 when email is not specified")
     void shouldReturn400WhenEmailIsNotSpecified() {
-        var req =
-            """
-                {
-                    "password": "Password1",
-                    "name": "Name",
-                    "lastName": "LastName"
-                }
+        var req = """
+            {
+                "password": "Password1",
+                "name": "Name",
+                "lastName": "LastName"
+            }
             """;
 
         mockMvcTester

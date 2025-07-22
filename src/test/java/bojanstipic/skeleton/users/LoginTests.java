@@ -37,12 +37,11 @@ class LoginTests extends TestBase {
                 .build()
         );
 
-        var req =
-            """
-                {
-                    "email": "test@example.com",
-                    "password": "Password123!"
-                }
+        var req = """
+            {
+                "email": "test@example.com",
+                "password": "Password123!"
+            }
             """;
 
         mockMvcTester
@@ -69,12 +68,11 @@ class LoginTests extends TestBase {
                 .build()
         );
 
-        var req =
-            """
-                {
-                    "email": "test@example.com",
-                    "password": "WrongPass123!"
-                }
+        var req = """
+            {
+                "email": "test@example.com",
+                "password": "WrongPass123!"
+            }
             """;
 
         mockMvcTester

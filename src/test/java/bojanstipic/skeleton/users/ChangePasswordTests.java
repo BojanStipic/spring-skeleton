@@ -37,12 +37,11 @@ class ChangePasswordTests extends TestBase {
                 .build()
         );
 
-        var req =
-            """
-                {
-                    "oldPassword": "Password123!",
-                    "newPassword": "New_pass123!"
-                }
+        var req = """
+            {
+                "oldPassword": "Password123!",
+                "newPassword": "New_pass123!"
+            }
             """;
 
         mockMvcTester
@@ -61,12 +60,11 @@ class ChangePasswordTests extends TestBase {
     )
     @WithMockUser
     void shouldNotChangeUserPasswordWhenBadReq() {
-        var req =
-            """
-                {
-                    "oldPassword": "pass",
-                    "newPassword": "new_pass"
-                }
+        var req = """
+            {
+                "oldPassword": "pass",
+                "newPassword": "new_pass"
+            }
             """;
 
         mockMvcTester
