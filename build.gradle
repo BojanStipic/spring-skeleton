@@ -56,9 +56,31 @@ tasks.named('test') {
 }
 
 spotless {
+    groovyGradle {
+        greclipse().configProperties("""
+            org.eclipse.jdt.core.formatter.tabulation.char=space
+        """)
+    }
     java {
         removeUnusedImports()
-        prettier(['prettier': '3.2.5', 'prettier-plugin-java': '2.6.0'])
-            .config(['tabWidth': 4, 'plugins': ['prettier-plugin-java']])
+        importOrder()
+        prettier(['prettier': '3.6.2', 'prettier-plugin-java': '2.7.3'])
+        .config([
+            'tabWidth': 4,
+            'plugins': ['prettier-plugin-java'],
+        ])
+    }
+    sql {
+        target 'src/**/*.sql'
+        prettier(['prettier': '3.6.2', 'prettier-plugin-sql': '0.19.2'])
+        .config([
+            'tabWidth': 4,
+            'plugins': ['prettier-plugin-sql'],
+            'language': 'postgresql',
+            'keywordCase': 'lower',
+            'dataTypeCase': 'lower',
+            'functionCase': 'lower',
+            'identifierCase': 'lower',
+        ])
     }
 }
