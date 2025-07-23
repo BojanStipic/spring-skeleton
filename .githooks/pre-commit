@@ -1,25 +1,2 @@
 #!/usr/bin/env sh
-
-create_stash() {
-    previous_stash=$(git rev-parse --quiet --verify refs/stash)
-    git stash --quiet --include-untracked
-    new_stash=$(git rev-parse --quiet --verify refs/stash)
-}
-
-pop_stash() {
-    [ "$previous_stash" != "$new_stash" ] && git stash pop --quiet
-}
-
-echo '[pre-commit hook] Applying Spotless...'
-
-# Get staged changes only
-git commit --no-verify --message "WIP" || exit 0
-create_stash
-git reset --soft HEAD~
-
-# Apply Spotless on staged changes only
-./gradlew spotlessApply
-git add -A
-
-# Restore unstaged changes
-pop_stash
+npx --yes lint-staged@16
