@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
       - run: 'chmod +x gradlew'
       - run: './gradlew test --info'
       - uses: 'actions/upload-artifact@v4'
@@ -32,6 +32,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
       - run: 'chmod +x gradlew'
       - run: './gradlew spotlessCheck'
