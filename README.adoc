@@ -128,7 +128,7 @@ https://httpie.io/[httpie]:
 +
 ```bash
 http --session=admin --offline --quiet ':8080' \
-    "X-XSRF-TOKEN: $(http --session=admin ':8080/csrf' | jq --raw-output .token)"
+    "X-XSRF-TOKEN: $(http --session=admin --headers ':8080' | grep 'XSRF-TOKEN' | sed -E 's/.*XSRF-TOKEN=([^;]+).*/\1/')"
 ```
 
 . Register:

@@ -14,8 +14,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -28,15 +26,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf ->
-                csrf
-                    .csrfTokenRepository(
-                        CookieCsrfTokenRepository.withHttpOnlyFalse()
-                    )
-                    .csrfTokenRequestHandler(
-                        new CsrfTokenRequestAttributeHandler()
-                    )
-            )
+            .csrf(csrf -> csrf.spa())
             .logout(logout ->
                 logout.logoutSuccessHandler(
                     new HttpStatusReturningLogoutSuccessHandler()
