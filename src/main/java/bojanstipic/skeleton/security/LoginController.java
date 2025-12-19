@@ -22,7 +22,7 @@ public class LoginController {
     ) {
         try {
             request.login(loginReq.email(), loginReq.password());
-        } catch (ServletException e) {
+        } catch (ServletException _) {
             throw new BadCredentialsException("Bad credentials");
         }
     }
