@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,8 +37,10 @@ public class User extends BaseEntity {
     private Long id;
 
     @NaturalId
+    @NotNull
     private String email;
 
+    @NotNull
     private String password;
 
     private String name;
@@ -47,6 +50,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(columnDefinition = "user_role")
+    @NotNull
     @Builder.Default
     private Role role = Role.USER;
 
