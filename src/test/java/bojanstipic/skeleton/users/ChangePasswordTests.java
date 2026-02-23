@@ -76,4 +76,34 @@ class ChangePasswordTests extends TestBase {
             .assertThat()
             .hasStatus(HttpStatus.BAD_REQUEST);
     }
+
+    @Test
+    @DisplayName("Should fail password change when old password is incorrect")
+    @WithMockUser(username = "test@example.com")
+    @Transactional
+    void shouldNotChangePasswordWhenOldPasswordDoesNotMatch() {
+        entityManager.persist(
+            User.builder()
+                .email("test@example.com")
+                .password(passwordEncoder.encode("Password123!"))
+                .role(User.Role.USER)
+                .build()
+        );
+
+        var req = """
+            {
+                "oldPassword": "WrongPass123!",
+                "newPassword": "New_pass123!"
+            }
+            """;
+
+        mockMvcTester
+            .put()
+            .uri("/users/self/password")
+            .with(SecurityMockMvcRequestPostProcessors.csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(req)
+            .assertThat()
+            .hasStatus(HttpStatus.BAD_REQUEST);
+    }
 }
