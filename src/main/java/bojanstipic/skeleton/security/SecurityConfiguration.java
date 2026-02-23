@@ -14,6 +14,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -21,12 +22,32 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private final HandlerExceptionResolver handlerExceptionResolver;
     private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(csrf -> csrf.spa())
+            .exceptionHandling(exceptions ->
+                exceptions
+                    .authenticationEntryPoint((req, res, e) ->
+                        handlerExceptionResolver.resolveException(
+                            req,
+                            res,
+                            null,
+                            e
+                        )
+                    )
+                    .accessDeniedHandler((req, res, e) ->
+                        handlerExceptionResolver.resolveException(
+                            req,
+                            res,
+                            null,
+                            e
+                        )
+                    )
+            )
             .logout(logout ->
                 logout.logoutSuccessHandler(
                     new HttpStatusReturningLogoutSuccessHandler()

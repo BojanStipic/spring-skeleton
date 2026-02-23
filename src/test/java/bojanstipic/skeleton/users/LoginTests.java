@@ -82,6 +82,6 @@ class LoginTests extends TestBase {
             .contentType(MediaType.APPLICATION_JSON)
             .content(req)
             .assertThat()
-            .hasStatus(HttpStatus.BAD_REQUEST);
+            .hasStatus(HttpStatus.UNAUTHORIZED);
     }
 }

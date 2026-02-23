@@ -1,6 +1,8 @@
 package bojanstipic.skeleton;
 
+import jakarta.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -17,22 +19,71 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ProblemDetail handle(NoSuchElementException e) {
-        return ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        return ProblemDetail.forStatusAndDetail(
+            HttpStatus.NOT_FOUND,
+            Optional.ofNullable(e.getMessage()).orElse(
+                "The requested resource was not found."
+            )
+        );
+    }
+
+    @ExceptionHandler
+    public ProblemDetail handle(ConstraintViolationException e) {
+        var problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST,
+            Optional.ofNullable(e.getMessage()).orElse("Validation failed.")
+        );
+
+        record ConstraintError(String field, String message, String code) {}
+
+        problemDetail.setProperty(
+            "errors",
+            e
+                .getConstraintViolations()
+                .stream()
+                .map(violation ->
+                    new ConstraintError(
+                        violation.getPropertyPath().toString(),
+                        violation.getMessage(),
+                        violation
+                            .getConstraintDescriptor()
+                            .getAnnotation()
+                            .annotationType()
+                            .getSimpleName()
+                    )
+                )
+                .toList()
+        );
+
+        return problemDetail;
     }
 
     @ExceptionHandler
     public ProblemDetail handle(DataIntegrityViolationException e) {
-        return ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        return ProblemDetail.forStatusAndDetail(
+            HttpStatus.CONFLICT,
+            "Request conflicts with existing data or database constraints."
+        );
     }
 
     @ExceptionHandler
     public ProblemDetail handle(AuthenticationException e) {
-        return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        return ProblemDetail.forStatusAndDetail(
+            HttpStatus.UNAUTHORIZED,
+            Optional.ofNullable(e.getMessage()).orElse(
+                "Invalid authentication credentials."
+            )
+        );
     }
 
     @ExceptionHandler
     public ProblemDetail handle(AccessDeniedException e) {
-        return ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        return ProblemDetail.forStatusAndDetail(
+            HttpStatus.FORBIDDEN,
+            Optional.ofNullable(e.getMessage()).orElse(
+                "You do not have permission to perform this action."
+            )
+        );
     }
 
     @ExceptionHandler

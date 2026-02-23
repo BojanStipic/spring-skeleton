@@ -54,13 +54,13 @@ class UserDetailsTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Should return 401 when unauthenticated")
-    void shouldReturn401WhenUnauthenticated() {
+    @DisplayName("Should return 403 when unauthorized")
+    void shouldReturn403WhenUnauthorized() {
         mockMvcTester
             .get()
             .uri("/users/self")
             .with(SecurityMockMvcRequestPostProcessors.csrf())
             .assertThat()
-            .hasStatus(HttpStatus.UNAUTHORIZED);
+            .hasStatus(HttpStatus.FORBIDDEN);
     }
 }
