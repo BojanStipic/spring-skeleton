@@ -27,7 +27,7 @@ services:
       retries: 5
 
   observability:
-    image: grafana/otel-lgtm:0.29.2
+    image: grafana/otel-lgtm:0.31.0
     ports:
       # OpenTelemetry Collector gRPC endpoint
       - "127.0.0.1:4317:4317"

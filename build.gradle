@@ -1,8 +1,8 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.1.0'
+    id 'org.springframework.boot' version '4.1.1'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.diffplug.spotless' version '8.8.0'
+    id 'com.diffplug.spotless' version '8.10.0'
 }
 
 group = 'bojanstipic'
@@ -20,7 +20,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0'
+        mavenBom 'io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.31.1'
     }
 }
 
@@ -41,7 +41,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter'
 
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
